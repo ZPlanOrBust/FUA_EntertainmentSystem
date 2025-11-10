@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Library</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <div>
+          <h1 class="title">FUA <span class="subtitle">Entertainment System</span></h1>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-muted" onclick="flushHLS()" title="Clear all HLS cache and temporary files">🧹 Flush HLS</button>
+          <button class="btn" onclick="killFFmpeg()" style="background:#b91c1c;color:white" title="Terminate all active FFmpeg processes">⚠️ Kill FFmpeg</button>
+        </div>
+      </div>
+      <p class="current-path">Current Location: <span class="mono">/{{ contents.current_path if contents.current_path else '' }}</span></p>
+    </header>
+
+    <div class="panel">
+      {% if contents.parent_path is not none %}
+        <a href="{{ '/' if contents.parent_path == '' else '/browse/' ~ contents.parent_path }}">
+          <div class="item-row">
+            <span class="icon up-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </span>
+            <span class="item-name">Back</span>
+          </div>
+        </a>
+      {% endif %}
+
+      {% for f in contents.folders %}
+        <a href="/browse/{{ contents.current_path ~ '/' if contents.current_path else '' }}{{ f }}">
+          <div class="item-row">
+            <span class="icon folder-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+            </span>
+            <span class="item-name">{{ f }}</span>
+          </div>
+        </a>
+      {% endfor %}
+
+      {% for file in contents.files %}
+        <div class="item-row" style="cursor:pointer;">
+          <a href="/play/{{ file.full_relative_path }}" style="flex:1;display:flex;align-items:center;text-decoration:none;color:inherit;">
+            <span class="icon file-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M13 9h5.5L13 3.5V9M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>
+            </span>
+            <span class="item-name file">{{ file.display_name }}</span>
+          </a>
+          <div style="display:flex;gap:6px;margin-left:8px;">
+            <a href="/play/{{ file.full_relative_path }}?mode=direct" class="btn btn-sm btn-muted" title="Play with Direct streaming (transcoded if needed)" onclick="event.stopPropagation();" style="text-decoration:none;">Direct</a>
+            <a href="/play/{{ file.full_relative_path }}?mode=hls" class="btn btn-sm btn-accent" title="Play with HLS streaming (segmented)" onclick="event.stopPropagation();" style="text-decoration:none;">HLS</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/library.js') }}"></script>
+</body>
+</html>

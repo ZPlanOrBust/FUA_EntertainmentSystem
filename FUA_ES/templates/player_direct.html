@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Player</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}" />
+</head>
+<body data-media-path="{{ media_path }}">
+  <div class="container">
+    <header class="header">
+      <div>
+        <span class="pill">DIRECT</span>
+      </div>
+      <h1 class="title">{{ media_path.split('/')[-1] }}</h1>
+    </header>
+    {% if needs_transcoding %}
+    <div style="background:#f59e0b;color:#000;padding:12px;border-radius:4px;margin:8px 0;font-size:14px;">
+      ⚠️ <strong>Transcoding Active:</strong> This video is being transcoded on-the-fly. Seeking is not supported in Direct mode. 
+      <a href="/play/{{ media_path }}?mode=hls" style="color:#000;text-decoration:underline;font-weight:bold;">Switch to HLS for full seeking support</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="player-container">
+    <div class="plyr-container">
+      <video id="player" playsinline controls data-start="0" data-src="/video/{{ media_path }}" data-duration="{{ duration|default(0, true) }}"></video>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-muted" title="Back to Library" onclick="window.history.back()">&#8592; Back</button>
+    <span class="divider"></span>
+    <button class="btn btn-accent" title="Choose active subtitle track" onclick="showSubtitleTrackSelector()">Subtitle Tracks</button>
+    <button class="btn btn-primary" title="Search and download subtitles" onclick="document.getElementById('subtitle-modal').classList.add('show')">Find Subtitles</button>
+    <button class="btn btn-accent" title="Extract embedded subtitle streams to .srt" onclick="extractEmbeddedSubtitles()">Extract Subs</button>
+    <span class="divider"></span>
+    <div class="btn btn-sm btn-muted" title="Adjust when subtitles appear on screen. Advance = show earlier. Delay = show later.">Subtitle Timing</div>
+    <div class="btn btn-sm btn-muted" title="Advance subtitles by 0.5s" onclick="adjustSubtitleTiming(-0.5)">&larr; 0.5s</div>
+    <div class="btn btn-sm btn-muted" title="Advance subtitles by 0.1s" onclick="adjustSubtitleTiming(-0.1)">&larr; 0.1s</div>
+    <div class="btn btn-sm btn-muted" title="Current subtitle offset">Offset <span id="subtitle-offset">0.0s</span></div>
+    <div class="btn btn-sm btn-muted" title="Delay subtitles by 0.1s" onclick="adjustSubtitleTiming(0.1)">0.1s &rarr;</div>
+    <div class="btn btn-sm btn-muted" title="Delay subtitles by 0.5s" onclick="adjustSubtitleTiming(0.5)">0.5s &rarr;</div>
+    <div class="btn btn-sm btn-accent" title="Reset subtitle timing" onclick="resetSubtitleTiming()">Reset</div>
+  </div>
+
+  <div id="status-box" class="status-box"></div>
+
+  <!-- Subtitle Track Selector Modal -->
+  <div id="subtitle-track-modal" class="modal">
+    <div class="modal-card">
+      <h3>Subtitle Tracks</h3>
+      <div id="track-info" class="text-sm" style="color:#b6b6b6;margin:8px 0">Detecting available subtitle tracks...</div>
+      <div id="subtitle-tracks-container" class="list">
+        <div class="list-item">Loading tracks...</div>
+      </div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn btn-muted" onclick="document.getElementById('subtitle-track-modal').classList.remove('show')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subtitle Search Modal -->
+  <div id="subtitle-modal" class="modal">
+    <div class="modal-card">
+      <h3>Search Subtitles</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">
+        <label>Language
+          <select id="subtitle-language" class="btn btn-sm btn-muted" style="padding-right:24px">
+            {% for code, name in supported_languages.items() %}
+            <option value="{{ code }}" {% if code == default_language %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>IMDB ID
+          <input id="imdb-id-input" class="btn btn-sm btn-muted" placeholder="tt0111161" />
+        </label>
+      </div>
+      <div id="subtitle-status" class="text-sm" style="margin:8px 0">Click 'Search' to find candidates from OpenSubtitles.</div>
+      <button id="search-button" class="btn btn-primary" onclick="findSubtitles(document.getElementById('subtitle-language').value)">Search</button>
+      <div id="subtitle-results" class="list" style="margin-top:10px">
+        <div class="list-item">No results yet.</div>
+      </div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn btn-muted" onclick="document.getElementById('subtitle-modal').classList.remove('show')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.polyfilled.min.js"></script>
+  <script src="{{ url_for('static', filename='js/player-common.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/player-direct.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+body{margin:0;background:#0b0b0b;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:960px;margin:24px auto;padding:0 16px}
+/* Player container */
+.player-container {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Plyr container for aspect ratio */
+.plyr-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure video takes full width of container */
+.plyr {
+  width: 100%;
+  height: 100%;
+}
+
+/* Video element styling */
+video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #000;
+}
+
+/* Responsive video container */
+@media (min-width: 768px) {
+  .plyr-container {
+    max-width: 1000px;
+  }
+}
+
+/* Fullscreen overrides */
+:fullscreen .plyr-container,
+:fullscreen video {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border-radius: 0;
+}
+a{color:#f59e0b}
+h1{font-size:28px;margin:8px 0 16px}
+h2{font-size:20px;margin:8px 0 16px;color:#cbd5e1}
+h3{font-size:16px;margin:16px 0 8px;color:#94a3b8}
+ul{list-style:none;padding:0;margin:0}
+li{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{background:#111111;border:1px solid #1f1f1f;border-radius:10px;padding:12px}
+.card a{display:block;color:#e5e7eb;text-decoration:none}
+.card a:hover{color:#ffd7a3}
+.back-link{display:inline-block;margin:8px 0 16px;padding:6px 10px;border:1px solid #2b2b2b;border-radius:8px;color:#e5e7eb;text-decoration:none}
+.back-link:hover{background:#1a1a1a}
+
+/* Old index-like styling */
+.header{margin-bottom:24px;border-bottom:1px solid #2b2b2b;padding-bottom:12px}
+.title{font-size:28px;font-weight:600;color:#f59e0b;letter-spacing:.2px}
+.subtitle{color:#b6b6b6;font-weight:400}
+.current-path{font-size:12px;color:#8a8a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.panel{background:#141414;padding:16px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.4);border:1px solid #1f1f1f}
+.item-row{display:flex;align-items:center;padding:12px;border-bottom:1px solid #1f1f1f;border-radius:10px;cursor:pointer;transition:transform .15s ease, background-color .15s ease}
+.item-row:last-child{border-bottom:none}
+.item-row:hover{transform:translateX(5px);background:#1a1a1a}
+.icon{width:24px;height:24px;fill:currentColor;margin-right:12px;display:inline-block}
+.folder-icon{color:#f59e0b}
+.file-icon{color:#8b8b8b}
+.up-icon{color:#fb923c}
+.item-name{font-size:18px;color:#e5e7eb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-name.file{color:#cbd5e1}
+
+/* Plyr theme primary color */
+:root{--plyr-color-main:#f59e0b}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;border:1px solid #2b2b2b;background:#1a1a1a;color:#e5e7eb;cursor:pointer;text-decoration:none}
+.btn:hover{background:#222}
+.btn-primary{border-color:#b45309;background:#f59e0b;color:#000}
+.btn-primary:hover{background:#f8b84f}
+.btn-accent{border-color:#fb923c;background:#fb923c;color:#000}
+.btn-accent:hover{background:#fcae67}
+.btn-muted{border-color:#2b2b2b;background:#121212;color:#cbd5e1}
+.btn-muted:hover{background:#1a1a1a}
+.btn-xs{padding:6px 8px;font-size:12px;border-radius:6px}
+.btn-sm{padding:7px 10px;font-size:13px;border-radius:7px}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px;margin-top:8px;border-top:1px solid #2b2b2b}
+.toolbar .divider{width:1px;align-self:stretch;background:#2b2b2b;margin:0 4px}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#fb923c;color:#111}
+
+/* Modals */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:1000}
+.modal.show{display:flex}
+.modal-card{background:#141414;border:1px solid #1f1f1f;border-radius:12px;max-width:720px;width:92%;padding:16px;color:#e5e7eb}
+.list{max-height:320px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.list-item{padding:10px;border:1px solid #1f1f1f;border-radius:8px;background:#121212}
+
+/* Status / Toast */
+.status-box{position:fixed;top:16px;right:16px;padding:10px 14px;border-radius:8px;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,.5);display:none}
+.status-success{background:#1a3a2a;color:#5eead4;border:1px solid #2d5f4f}
+.status-warning{background:#3a3a1a;color:#fcd34d;border:1px solid #5f5f2d}
+.status-error{background:#3a1a1a;color:#fca5a5;border:1px solid #5f2d2d}
