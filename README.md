@@ -10,7 +10,10 @@ A modern, web-based media streaming and management system built with Python and 
   <img src="screenshots/FUA_ES_Screenshot3.png" alt="FUA Entertainment System" width="300"/>
 </div>
 
-
+## Known issues
+- Subtitles not working correctly on Apple Devices.
+- Android TV and Android mobile have issues handling URLs
+Working on a fix soon, Stay tuned
 
 ## ✨ Features
 
