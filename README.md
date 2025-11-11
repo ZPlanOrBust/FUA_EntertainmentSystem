@@ -5,9 +5,9 @@ A modern, web-based media streaming and management system built with Python and 
 
 
 <div style="display: flex; gap: 10px;">
-  <img src="screenshots/FUA_ES_Screenshot1.png" alt="FUA Entertainment System" width="300"/>
-  <img src="screenshots/FUA_ES_Screenshot2.png" alt="FUA Entertainment System" width="300"/>
-  <img src="screenshots/FUA_ES_Screenshot3.png" alt="FUA Entertainment System" width="300"/>
+  <img src="screenshots/FUA_ES_Screenshot1.png" alt="FUA Entertainment System" width="200"/>
+  <img src="screenshots/FUA_ES_Screenshot2.png" alt="FUA Entertainment System" width="200"/>
+  <img src="screenshots/FUA_ES_Screenshot3.png" alt="FUA Entertainment System" width="200"/>
 </div>
 
 ## Known issues
